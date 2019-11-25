@@ -1,0 +1,24 @@
+{
+  "name": "Colosseum",
+  "version": "1.0.0",
+  "description": "Battle opponents in the arena until one is defeated, either by force or begging for missio.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulLNH/Colosseum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PaulLNH/Colosseum/issues"
+  },
+  "homepage": "https://github.com/PaulLNH/Colosseum#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
