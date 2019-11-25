@@ -3,6 +3,10 @@ const BootScene = new Phaser.Class({
   initialize: function BootScene() {
     Phaser.Scene.call(this, { key: "BootScene" });
   },
+  /**
+   * @function preload
+   * @description Loads all asets for BootScene into memory
+   */
   preload: function() {
     // map tiles
     this.load.image("tiles", "assets/map/spritesheet.png");
@@ -14,6 +18,10 @@ const BootScene = new Phaser.Class({
       frameHeight: 16
     });
   },
+  /**
+   * @function create
+   * @description Creates the BootScene
+   */
   create: function() {
     this.scene.start("WorldScene");
   }
@@ -24,10 +32,15 @@ const WorldScene = new Phaser.Class({
   initialize: function WorldScene() {
     Phaser.Scene.call(this, { key: "WorldScene" });
   },
+  /**
+   * @function preload
+   * @description Load all assets for WorldScene into memory
+   */
   preload: function() {},
-  /*
-  * @create
-  */
+  /**
+   * @function create
+   * @description Creates the WorldScene
+   */
   create: function() {
     // key: "map" references the first argument of the BootScene.preload this.load.tilemapTiledJSON
     const map = this.make.tilemap({ key: "map" });
@@ -94,7 +107,50 @@ const WorldScene = new Phaser.Class({
 
     // Set collision between player and obstacles
     this.physics.add.collider(this.player, obstacles);
+
+    this.spawns = this.physics.add.group({
+      classType: Phaser.GameObjects.Zone
+    });
+    for (let i = 0; i < 30; i++) {
+      const x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+      const y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+      // parameters are x, y, width, height
+      this.spawns.create(x, y, 20, 20);
+    }
+
+    // When this.player overlaps with this.spawns, invoke the this.onMeetEnemy method
+    this.physics.add.overlap(
+      this.player,
+      this.spawns,
+      this.onMeetEnemy,
+      false,
+      this
+    );
   },
+  /**
+   * @function onMeetEnemy
+   * @description Logic for player / enemy collision
+   *
+   * @param {Array} player Player sprite
+   * @param {Array} zone Action objects
+   */
+  onMeetEnemy: function(player, zone) {
+    // move the enemy to another location (temporary)
+    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+
+    // shake the world
+    this.cameras.main.shake(300);
+
+    // start battle
+  },
+  /**
+   * @function update
+   * @description Cycles at games fps
+   *
+   * @param {Array} time
+   * @param {Array} delta
+   */
   update: function(time, delta) {
     this.player.body.setVelocity(0);
     // Horizontal movmenet

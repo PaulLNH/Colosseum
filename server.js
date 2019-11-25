@@ -1,11 +1,15 @@
-const express = require("express"),
-  app = express(),
-  http = require("http"),
-  httpServer = http.Server(app);
+const express = require("express");
+const app = express();
+const PORT = process.env.PORT || 3000;
+// const http = require("http");
+// const httpServer = http.Server(app);
 
 app.use(express.static(__dirname + "/public"));
 
 app.get("/", function(req, res) {
-  res.sendfile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/index.html");
 });
-app.listen(3000);
+
+app.listen(PORT, () => {
+  console.log(`App listening on PORT: ${PORT}`);
+});
