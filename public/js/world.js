@@ -1,4 +1,4 @@
-var BootScene = new Phaser.Class({
+const BootScene = new Phaser.Class({
   Extends: Phaser.Scene,
 
   initialize: function BootScene() {
@@ -29,7 +29,7 @@ var BootScene = new Phaser.Class({
   }
 });
 
-var WorldScene = new Phaser.Class({
+const WorldScene = new Phaser.Class({
   Extends: Phaser.Scene,
 
   initialize: function WorldScene() {
@@ -40,14 +40,14 @@ var WorldScene = new Phaser.Class({
 
   create: function() {
     // create the map
-    var map = this.make.tilemap({ key: "map" });
+    const map = this.make.tilemap({ key: "map" });
 
     // first parameter is the name of the tilemap in tiled
-    var tiles = map.addTilesetImage("spritesheet", "tiles");
+    const tiles = map.addTilesetImage("spritesheet", "tiles");
 
     // creating the layers
-    var grass = map.createStaticLayer("Grass", tiles, 0, 0);
-    var obstacles = map.createStaticLayer("Obstacles", tiles, 0, 0);
+    const grass = map.createStaticLayer("Grass", tiles, 0, 0);
+    const obstacles = map.createStaticLayer("Obstacles", tiles, 0, 0);
 
     // make all tiles in obstacles collidable
     obstacles.setCollisionByExclusion([-1]);
@@ -111,9 +111,9 @@ var WorldScene = new Phaser.Class({
     this.spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone
     });
-    for (var i = 0; i < 30; i++) {
-      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-      var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+    for (let i = 0; i < 30; i++) {
+      const x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+      const y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // parameters are x, y, width, height
       this.spawns.create(x, y, 20, 20);
     }

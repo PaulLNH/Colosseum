@@ -1,4 +1,4 @@
-var BattleScene = new Phaser.Class({
+const BattleScene = new Phaser.Class({
   Extends: Phaser.Scene,
 
   initialize: function BattleScene() {
@@ -13,7 +13,7 @@ var BattleScene = new Phaser.Class({
   },
   startBattle: function() {
     // player character - warrior
-    var warrior = new PlayerCharacter(
+    const warrior = new PlayerCharacter(
       this,
       250,
       50,
@@ -26,10 +26,10 @@ var BattleScene = new Phaser.Class({
     this.add.existing(warrior);
 
     // player character - mage
-    var mage = new PlayerCharacter(this, 250, 100, "player", 4, "Mage", 80, 8);
+    const mage = new PlayerCharacter(this, 250, 100, "player", 4, "Mage", 80, 8);
     this.add.existing(mage);
 
-    var dragonblue = new Enemy(
+    const dragonblue = new Enemy(
       this,
       50,
       50,
@@ -41,7 +41,7 @@ var BattleScene = new Phaser.Class({
     );
     this.add.existing(dragonblue);
 
-    var dragonOrange = new Enemy(
+    const dragonOrange = new Enemy(
       this,
       50,
       100,
@@ -85,7 +85,7 @@ var BattleScene = new Phaser.Class({
     } else {
       // else if its enemy unit
       // pick random living hero to be attacked
-      var r;
+      let r;
       do {
         r = Math.floor(Math.random() * this.heroes.length);
       } while (!this.heroes[r].living);
@@ -101,14 +101,14 @@ var BattleScene = new Phaser.Class({
   },
   // check for game over or victory
   checkEndBattle: function() {
-    var victory = true;
+    let victory = true;
     // if all enemies are dead we have victory
-    for (var i = 0; i < this.enemies.length; i++) {
+    for (let i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i].living) victory = false;
     }
-    var gameOver = true;
+    let gameOver = true;
     // if all heroes are dead we have game over
-    for (var i = 0; i < this.heroes.length; i++) {
+    for (let i = 0; i < this.heroes.length; i++) {
       if (this.heroes[i].living) gameOver = false;
     }
     return victory || gameOver;
@@ -129,7 +129,7 @@ var BattleScene = new Phaser.Class({
     // clear state, remove sprites
     this.heroes.length = 0;
     this.enemies.length = 0;
-    for (var i = 0; i < this.units.length; i++) {
+    for (let i = 0; i < this.units.length; i++) {
       // link item
       this.units[i].destroy();
     }
@@ -142,7 +142,7 @@ var BattleScene = new Phaser.Class({
 });
 
 // base class for heroes and enemies
-var Unit = new Phaser.Class({
+const Unit = new Phaser.Class({
   Extends: Phaser.GameObjects.Sprite,
 
   initialize: function Unit(scene, x, y, texture, frame, type, hp, damage) {
@@ -185,7 +185,7 @@ var Unit = new Phaser.Class({
   }
 });
 
-var Enemy = new Phaser.Class({
+const Enemy = new Phaser.Class({
   Extends: Unit,
 
   initialize: function Enemy(scene, x, y, texture, frame, type, hp, damage) {
@@ -193,7 +193,7 @@ var Enemy = new Phaser.Class({
   }
 });
 
-var PlayerCharacter = new Phaser.Class({
+const PlayerCharacter = new Phaser.Class({
   Extends: Unit,
 
   initialize: function PlayerCharacter(
@@ -214,7 +214,7 @@ var PlayerCharacter = new Phaser.Class({
   }
 });
 
-var MenuItem = new Phaser.Class({
+const MenuItem = new Phaser.Class({
   Extends: Phaser.GameObjects.Text,
 
   initialize: function MenuItem(x, y, text, scene) {
@@ -240,7 +240,7 @@ var MenuItem = new Phaser.Class({
 });
 
 // base menu class, container for menu items
-var Menu = new Phaser.Class({
+const Menu = new Phaser.Class({
   Extends: Phaser.GameObjects.Container,
 
   initialize: function Menu(x, y, scene, heroes) {
@@ -252,7 +252,7 @@ var Menu = new Phaser.Class({
     this.selected = false;
   },
   addMenuItem: function(unit) {
-    var menuItem = new MenuItem(
+    const menuItem = new MenuItem(
       0,
       this.menuItems.length * 20,
       unit,
@@ -304,7 +304,7 @@ var Menu = new Phaser.Class({
   },
   // clear menu and remove all menu items
   clear: function() {
-    for (var i = 0; i < this.menuItems.length; i++) {
+    for (let i = 0; i < this.menuItems.length; i++) {
       this.menuItems[i].destroy();
     }
     this.menuItems.length = 0;
@@ -313,15 +313,15 @@ var Menu = new Phaser.Class({
   // recreate the menu items
   remap: function(units) {
     this.clear();
-    for (var i = 0; i < units.length; i++) {
-      var unit = units[i];
+    for (let i = 0; i < units.length; i++) {
+      const unit = units[i];
       unit.setMenuItem(this.addMenuItem(unit.type));
     }
     this.menuItemIndex = 0;
   }
 });
 
-var HeroesMenu = new Phaser.Class({
+const HeroesMenu = new Phaser.Class({
   Extends: Menu,
 
   initialize: function HeroesMenu(x, y, scene) {
@@ -329,7 +329,7 @@ var HeroesMenu = new Phaser.Class({
   }
 });
 
-var ActionsMenu = new Phaser.Class({
+const ActionsMenu = new Phaser.Class({
   Extends: Menu,
 
   initialize: function ActionsMenu(x, y, scene) {
@@ -342,7 +342,7 @@ var ActionsMenu = new Phaser.Class({
   }
 });
 
-var EnemiesMenu = new Phaser.Class({
+const EnemiesMenu = new Phaser.Class({
   Extends: Menu,
 
   initialize: function EnemiesMenu(x, y, scene) {
@@ -355,7 +355,7 @@ var EnemiesMenu = new Phaser.Class({
 });
 
 // User Interface scene
-var UIScene = new Phaser.Class({
+const UIScene = new Phaser.Class({
   Extends: Phaser.Scene,
 
   initialize: function UIScene() {
@@ -443,11 +443,11 @@ var UIScene = new Phaser.Class({
     this.enemiesMenu.select(0);
   },
   remapHeroes: function() {
-    var heroes = this.battleScene.heroes;
+    const heroes = this.battleScene.heroes;
     this.heroesMenu.remap(heroes);
   },
   remapEnemies: function() {
-    var enemies = this.battleScene.enemies;
+    const enemies = this.battleScene.enemies;
     this.enemiesMenu.remap(enemies);
   },
   onKeyInput: function(event) {
@@ -465,12 +465,12 @@ var UIScene = new Phaser.Class({
 });
 
 // the message class extends containter
-var Message = new Phaser.Class({
+const Message = new Phaser.Class({
   Extends: Phaser.GameObjects.Container,
 
   initialize: function Message(scene, events) {
     Phaser.GameObjects.Container.call(this, scene, 160, 30);
-    var graphics = this.scene.add.graphics();
+    const graphics = this.scene.add.graphics();
     this.add(graphics);
     graphics.lineStyle(1, 0xffffff, 0.8);
     graphics.fillStyle(0x031f4c, 0.3);
